@@ -1,4 +1,4 @@
-# DE_Bootcamp
+# DE_Bootcamp_Midterm
 Projects from the WeCloudData Data Engineering Bootcamp
 
 Architecture:
