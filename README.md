@@ -5,7 +5,11 @@ Architecture:
 
 ![image](https://user-images.githubusercontent.com/113261578/228686403-20590f97-bda1-49b1-a3f4-da293fb2a83e.png)
 
-Project Description:
+Project Summary:
+
+The purpose of this project is to mimic a realistic ETL process that can be found in real world businesses: data files are sent to the companies data lake (S3 bucket) everyday from an internal transaction database. The company first needs to scan the S3 bucket, when the files are ready, the ETL process will start. For example, every day at 2 am, the data is dumped from the transaction database to S3 bucket, and when all the data has been dumped, the EMR cluster will run to process the data. And the processed data will be stored in a new S3 bucket for the next day's usage.
+
+
 
 --The project mimics an ETL process found in some companies. 
 
