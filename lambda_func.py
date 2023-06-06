@@ -7,7 +7,7 @@ from send_email import send_email
 s3_file_list = []
 
 s3_client=boto3.client('s3')
-for object in s3_client.list_objects_v2(Bucket='s3://wcd-midterm-bimmerman/snowflake_db_input/')['Contents']:
+for object in s3_client.list_objects_v2(Bucket='<s3 path to csv files to be checked>')['Contents']:
     s3_file_list.append(object['Key'])
 
 datestr = time.strftime("%Y-%m-%d")
