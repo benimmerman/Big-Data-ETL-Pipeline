@@ -41,7 +41,7 @@ SPARK_STEPS = [
                 '--executor-memory','3g',
                 '--executor-cores','2',
                 '<path of s3 location for midterm_workflow.py>',
-                '-p', json.dumps({'input_file_paths': "{{ task_instance.xcom_pull('parse_request', key='data_files') }}", # jinja template
+                '-p', json.dumps({'input_file_paths': "{{ task_instance.xcom_pull('parse_request', key='data_files') }}",
                 'output_path': '<s3 output path>' })
             ]
         }
