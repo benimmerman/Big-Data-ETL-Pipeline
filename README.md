@@ -13,7 +13,7 @@ The purpose of this project is to mimic a realistic ETL process that can be foun
 
 Create a Snowflake account and use the script load_raw_data.sql to load the transaction data. Once the data is loaded you can use snowflake_task.sql to set up automatic uploads of the newest csv files to your S3 bucket. Alternatively, you can use manually_load_data_to_S3.sql to manually upload the files to your S3 bucket.
 
-
+You will need to create an AWS Lambda function to check your S3 bucket for the latest csv files to trigger the ETL process. The script for the lambda function is lambda_func.py. Once the lambda function checks that the proper files are in the S3 location, it will send the files to Airflow to start the transformation process.
 
 You will need to set up Airflow on an AWS EC2 instance. Since Airflow will be running on an EC2 instance, you will need to create a new IAM role for the EC2 instance to communicate with the EMR cluster. Select the trusted entity type as AWS service, then common use cases as EC2. Add permissions: AmazonEMRFullAccessPolicy_v2. Set the role name as airflow_tirgger_emr.
 After the new role is created go to your EC2 settings and attach the new role to the EC2. Select actions, then security, then modify IAM role. Select airflow_trigger_emr and select save.
