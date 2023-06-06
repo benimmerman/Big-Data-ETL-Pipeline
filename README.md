@@ -11,7 +11,10 @@ The purpose of this project is to mimic a realistic ETL process that can be foun
 
 # Running This Code:
 
-You will need to set up Airflow on an AWS EC2 instance. 
+You will need to set up Airflow on an AWS EC2 instance. Since Airflow will be running on an EC2 instance, you will need to create a new IAM role for the EC2 instance to communicate with the EMR cluster. Select the trusted entity type as AWS service, then common use cases as EC2. Add permissions: AmazonEMRFullAccessPolicy_v2. Set the role name as airflow_tirgger_emr.
+After the new role is created go to your EC2 settings and attach the new role to the EC2. Select actions, then security, then modify IAM role. Select airflow_trigger_emr and select save.
+After Lambda sends a signal to Ariflow, Airflow will unpack the data from Lambda as the parameter for EMR. The airflow script used in this project is midterm_dag.py.
+
 You will also need to set up an AWS EMR cluster.
 
 --The project mimics an ETL process found in some companies. 
