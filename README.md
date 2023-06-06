@@ -11,26 +11,12 @@ The purpose of this project is to mimic a realistic ETL process that can be foun
 
 # Running This Code:
 
+Create a Snowflake account and use the script load_raw_data.sql to load the transaction data.
+
 You will need to set up Airflow on an AWS EC2 instance. Since Airflow will be running on an EC2 instance, you will need to create a new IAM role for the EC2 instance to communicate with the EMR cluster. Select the trusted entity type as AWS service, then common use cases as EC2. Add permissions: AmazonEMRFullAccessPolicy_v2. Set the role name as airflow_tirgger_emr.
 After the new role is created go to your EC2 settings and attach the new role to the EC2. Select actions, then security, then modify IAM role. Select airflow_trigger_emr and select save.
-After Lambda sends a signal to Ariflow, Airflow will unpack the data from Lambda as the parameter for EMR. The airflow script used in this project is midterm_dag.py.
+After Lambda sends a signal to Ariflow, Airflow will unpack the data from Lambda as the parameter for EMR. The airflow script used in this project is midterm_dag.py. The DAG first receives the files csv files and pushesw them into Airflow. The next step in the DAG connects to your EMR cluster and inserts arguments into the Spark session to start the process of transforming the data. Once the EMR cluster is finished with this process, Airflow will check if the EMR cluster executed the job successfully and end the session.
 
-You will also need to set up an AWS EMR cluster.
+You will also need to set up an AWS EMR cluster. Airflow will give the EMR cluster all of its PySpark arguments from the midterm_dag.py file, and the EMR will run the file midterm_workflow.py to transform the data from the csv files. Once the process is complete, new parquet files will be created with the transformed data and sent to a new S3 bucket.
 
---The project mimics an ETL process found in some companies. 
-
---CSV files are imported from a data warehouse to an S3 bucket once daily. A lambda function (lambda_func.py) checks the S3 bucket at a certain time every day using CloudWatch.
-
---Once the lambda function determines that the newest CSV files have been uploaded, the files are sent to Airflow which has been set up using Docker in an EC2 instance.
-
---The DAG (midterm_dag.py) first retrieves the files and pushes them into Airflow.
-
---The next DAG step connects to an EMR cluster and inserts arguments into the Spark session. Among these arguments are the Pyspark script (midterm_workflow.py) to execute, and the S3 bucket location to dump the transformed data.
-
---The Pyspark script uses SQL queries to create dataframes from the CSV files, then transform the data into the desired format.
-
---The dataframes are then converted to parquet files and are sent to the desired S3 bucket location.
-
---The last step Airflow takes will check if the EMR cluster executed the job successfully.
-
---When the parquet files are successfully uploaded to the output S3 bucket, AWS tools like Athena and Glue are used to help visualize the data in Superset or Power BI to create tables and charts for analysis.
+When the parquet files are successfully uploaded to the output S3 bucket, AWS tools like Athena and Glue are used to help visualize the data in Superset or Power BI to create tables and charts for analysis
