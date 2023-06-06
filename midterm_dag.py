@@ -15,12 +15,12 @@ DEFAULT_ARGS = {
     'owner': 'airflow',
     'depends_on_past': False,
     'start_date': airflow.utils.dates.days_ago(0),
-    'email': ['ben.immerman@gmail.com'],
+    'email': ['<your email>'],
     'email_on_failure': False,
     'email_on_retry': False,
 }
 
-CLUSTER_ID = 'j-1Z9Z70H8L5SB3'
+CLUSTER_ID = '<your EMR cluster ID>'
 
 def retrieve_s3_files(**kwargs):
     data_files = kwargs['dag_run'].conf
@@ -40,9 +40,9 @@ SPARK_STEPS = [
                 '--driver-memory', '512m',
                 '--executor-memory','3g',
                 '--executor-cores','2',
-                's3://wcd-midterm-bimmerman/scripts/midterm_workflow.py',
+                '<path of s3 location for midterm_workflow.py>',
                 '-p', json.dumps({'input_file_paths': "{{ task_instance.xcom_pull('parse_request', key='data_files') }}", # jinja template
-                'output_path': 's3://wcd-midterm-bimmerman/output/' })
+                'output_path': '<s3 output path>' })
             ]
         }
     }
