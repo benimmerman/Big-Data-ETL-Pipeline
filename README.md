@@ -1,4 +1,4 @@
-# DE_Bootcamp_Midterm
+# Big Data ETL Pipeline
 Midterm project from the WeCloudData Data Engineering Bootcamp
 
 # Architecture:
